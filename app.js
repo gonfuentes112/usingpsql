@@ -16,6 +16,11 @@ app.get("/", async (req, res) => {
   res.send("Usernames: " + usernames.map((user) => user.username).join(", "));
 });
 
+app.get("/delete", async (req, res) => {
+    await db.deleteUsernames();
+    res.send("all users deleted");
+})
+
 app.use("/new", newRouter);
 
 const PORT = process.env.PORT || 3000;
