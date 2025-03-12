@@ -5,9 +5,15 @@ const db = require("./db/queries");
 require("dotenv").config();
 
 app.get("/", async (req, res) => {
-  const usernames = await db.getAllUsernames();
+  let usernames;
+  if (req.query.search) {
+    usernames = await db.getUsernamesWhere(req.query.search);
+  } else {
+    usernames = await db.getAllUsernames();
+  }
+
   console.log("Usernames: ", usernames);
-  res.send("Usernames: "+ usernames.map((user) => user.username).join(", "));
+  res.send("Usernames: " + usernames.map((user) => user.username).join(", "));
 });
 
 app.use("/new", newRouter);
